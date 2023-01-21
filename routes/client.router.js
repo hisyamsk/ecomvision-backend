@@ -3,6 +3,6 @@ import { getAllProducts } from '../controller/client.controller.js';
 
 const clientRouter = express.Router();
 
-clientRouter.get('/', getAllProducts);
+clientRouter.get('/products', getAllProducts);
 
 export default clientRouter;
