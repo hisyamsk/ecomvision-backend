@@ -42,8 +42,8 @@ export async function getAllCustomers(req, res) {
 
 export async function getAllTransactions(req, res) {
   try {
-    // sort request from RE: {"field": "userId", "sort": "asc" }
-    const { page = 1, pageSize = 20, sort = null, search = '' } = req.query;
+    // sort request from FE: {"field": "userId", "sort": "asc" }
+    const { page = 0, pageSize = 20, sort = null, search = '' } = req.query;
 
     const formattedSort = () => {
       const parsedSort = Boolean(sort) && JSON.parse(sort);
@@ -62,7 +62,7 @@ export async function getAllTransactions(req, res) {
       ],
     })
       .limit(pageSize)
-      .skip(pageSize * (page - 1))
+      .skip(pageSize * page)
       .sort(sortFormatted);
 
     const total = await TransactionModel.countDocuments({
