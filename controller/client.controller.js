@@ -42,9 +42,8 @@ export async function getAllCustomers(req, res) {
 
 export async function getAllTransactions(req, res) {
   try {
-
     // sort request from RE: {"field": "userId", "sort": "asc" }
-    const { page = 1, pageSize = 20, sort = null, search = ' ' } = req.query;
+    const { page = 1, pageSize = 20, sort = null, search = '' } = req.query;
 
     const formattedSort = () => {
       const parsedSort = Boolean(sort) && JSON.parse(sort);
@@ -75,7 +74,7 @@ export async function getAllTransactions(req, res) {
       total,
     });
   } catch (error) {
-    res.statsu(404).json({
+    res.status(404).json({
       error,
     });
   }
