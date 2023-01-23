@@ -3,6 +3,8 @@ import ProductStatModel from '../models/ProductStat.model.js';
 import UserModel from '../models/User.model.js';
 import TransactionModel from '../models/Transaction.model.js';
 
+import getCountryISO3 from '../utils/countryISO2toISO3.js';
+
 export async function getAllProducts(req, res) {
   try {
     const products = await ProductModel.find();
@@ -75,6 +77,38 @@ export async function getAllTransactions(req, res) {
     });
   } catch (error) {
     res.status(404).json({
+      error,
+    });
+  }
+}
+
+export async function getGeography(req, res) {
+  try {
+    const users = await UserModel.find();
+
+    const mappedCountries = users.reduce((acc, { country }) => {
+      const countryISO3 = getCountryISO3(country);
+      if (!acc[countryISO3]) {
+        acc[countryISO3] = 0;
+      }
+      acc[countryISO3]++;
+
+      return acc;
+    }, {});
+
+    // object that needed for nivo geography chart: { id: @country-name, value: @country-count }
+    const formattedCountries = Object.entries(mappedCountries).map(
+      ([country, count]) => {
+        return {
+          id: country,
+          value: count,
+        };
+      }
+    );
+
+    res.status(200).json(formattedCountries);
+  } catch (error) {
+    res.status(500).json({
       error,
     });
   }
