@@ -3,6 +3,6 @@ import { getSales } from '../controller/sales.controller.js';
 
 const salesRouter = express.Router();
 
-salesRouter.get('/', getSales)
+salesRouter.get('/sales', getSales)
 
 export default salesRouter;
