@@ -45,7 +45,7 @@ export async function getDashboardStats(req, res) {
       return date === currentDay;
     });
 
-    res.sendStatus(200).json({
+    res.status(200).json({
       totalCustomers,
       yearlyTotalSoldUnits,
       yearlySalesTotal,
